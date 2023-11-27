@@ -15,16 +15,14 @@ const Start = async () => {
       },
     },
   })
-  app.use((req, res) => nextHandler(req, res))
+  app.use((req, res) => nextHandler(req, res))  ///the next server
   nextAPP.prepare().then(() => {
     payload.logger.info('NEXT.JS started')
 
     app.listen(PORT, async() => {
      payload.logger.info(`NEXT APP URL:${process.env.NEXT_PUBLIC_SERVER_URL}`)
     })
-    // app.listen(PORT, () => {
-    //   console.log(`> Ready on http://localhost:${PORT}`)
-    // })
+
   
   })
 }
