@@ -21,9 +21,7 @@ const Start = async () => {
 
     app.listen(PORT, async() => {
      payload.logger.info(`NEXT APP URL:${process.env.NEXT_PUBLIC_SERVER_URL}`)
-    })
-
-  
+    }) 
   })
 }
 Start()

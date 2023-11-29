@@ -4,7 +4,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { webpackBundler } from '@payloadcms/bundler-webpack'
 import path from 'path'
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000/',
   collections: [],
   routes: {
     admin: '/sell',
