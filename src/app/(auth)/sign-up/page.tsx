@@ -10,10 +10,12 @@ import React from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { CredentialsType, credentialValidationType } from '@/lib/Validation/CredentialsType'
+import { trpc } from '@/app/_trpc/client'
 interface pageProps {}
 
 const Page = ({}: pageProps) => {
-
+const { data } = trpc.getTodos.useQuery()
+console.log(data)
  const {
    register,
    handleSubmit,

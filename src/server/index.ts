@@ -1,7 +1,7 @@
 import { publicProcedure, router } from './trpc'
 
 export const appRouter = router({
-  getTodos: publicProcedure.query(({ ctx }) => {
+  getTodos: publicProcedure.query(() => {
     return 'hello word'
   }),
 })
