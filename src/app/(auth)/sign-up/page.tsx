@@ -14,8 +14,7 @@ import { trpc } from '@/app/_trpc/client'
 interface pageProps {}
 
 const Page = ({}: pageProps) => {
-const { data } = trpc.getTodos.useQuery()
-console.log(data)
+
  const {
    register,
    handleSubmit,
