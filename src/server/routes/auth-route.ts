@@ -1,6 +1,6 @@
-import { CredentialsType } from '@/lib/Validation/CredentialsType'
+import { CredentialsType } from '../../lib/Validation/CredentialsType'
 import { publicProcedure, router } from '../trpc'
-import { getPayloadClient } from '@/lib/getPayloadClient'
+import { getPayloadClient } from '../../lib/getPayloadClient'
 import { TRPCClientError } from '@trpc/client'
 import { TRPCError } from '@trpc/server'
 
@@ -10,32 +10,26 @@ export const authRoute = router({
     .mutation(async ({ input, ctx }) => {
       const { email, password } = input
       const payload = await getPayloadClient()
-      const { docs } = await payload.find({
+      const { docs: users } = await payload.find({
         collection: 'users',
         where: {
           email: {
             equals: email,
           },
-          password: {
-            equals: password,
-          },
         },
-        limit: 1,
       })
 
-      if (docs.length > 0) {
-        throw new TRPCError({
-          code: 'CONFLICT',
-          cause: new TRPCClientError('User Already Exists'),
-          message: 'User Already Exists',
-        })
-      }
+      if (users.length !== 0) throw new TRPCError({ code: 'CONFLICT' })
+
       await payload.create({
         collection: 'users',
         data: {
           email,
           password,
+          role: 'user',
         },
       })
+
+      return { success: true, sentToEmail: email }
     }),
 })
