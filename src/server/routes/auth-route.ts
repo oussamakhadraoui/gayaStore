@@ -3,6 +3,7 @@ import { publicProcedure, router } from '../trpc'
 import { getPayloadClient } from '../../lib/getPayloadClient'
 import { TRPCClientError } from '@trpc/client'
 import { TRPCError } from '@trpc/server'
+import { z } from 'zod'
 
 export const authRoute = router({
   createPayloadUser: publicProcedure
@@ -31,5 +32,17 @@ export const authRoute = router({
       })
 
       return { success: true, sentToEmail: email }
+    }),
+  verifyEmail: publicProcedure
+    .input(z.object({ token: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { token } = input
+      const payload = await getPayloadClient()
+      const isVerfied = await payload.verifyEmail({
+        token,
+        collection: 'users',
+      })
+      if (!isVerfied) throw new TRPCError({ code: 'UNAUTHORIZED' })
+      return { success: true }
     }),
 })

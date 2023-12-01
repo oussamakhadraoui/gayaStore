@@ -27,31 +27,32 @@ if (!cashed) {
 interface Option {
   initOption?: Partial<InitOptions>
 }
-export const getPayloadClient = async ({ initOption }: Option = {}):Promise<Payload> => {
+export const getPayloadClient = async ({
+  initOption,
+}: Option = {}): Promise<Payload> => {
   if (!process.env.PAYLOAD_SECRET) {
     throw new Error('PAYLOAD_SECRET is not defined')
   }
-  if(cashed.client){
-   return cashed.client
+  if (cashed.client) {
+    return cashed.client
   }
-  if(!cashed.promise){
-  cashed.promise = payload.init({
-    email: {
-      transport: transporter,
-      fromAddress: 'black0velta@gmail.com',
-      fromName: 'DigitalHippo',
-    },
-    secret: process.env.PAYLOAD_SECRET,
-    local: initOption?.express ? false : true,
-    ...(initOption || {}),
-  })
+  if (!cashed.promise) {
+    cashed.promise = payload.init({
+      email: {
+        transport: transporter,
+        fromAddress: 'onboarding@resend.dev',
+        fromName: 'black0velta@gmail.com',
+      },
+      secret: process.env.PAYLOAD_SECRET,
+      local: initOption?.express ? false : true,
+      ...(initOption || {}),
+    })
   }
-try {
- cashed.client= await cashed.promise
-
-} catch (error:unknown) {
- cashed.promise =null
- throw error
-}
-return cashed.client
+  try {
+    cashed.client = await cashed.promise
+  } catch (error: unknown) {
+    cashed.promise = null
+    throw error
+  }
+  return cashed.client
 }
