@@ -10,11 +10,13 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
-
 import { toast } from 'sonner'
 import { ZodError } from 'zod'
 import { useRouter } from 'next/navigation'
-import { CredentialsType, credentialValidationType } from '@/lib/Validation/CredentialsType'
+import {
+  CredentialsType,
+  credentialValidationType,
+} from '@/lib/Validation/CredentialsType'
 import { trpc } from '@/app/_trpc/client'
 
 const Page = () => {
@@ -44,7 +46,10 @@ const Page = () => {
 
       toast.error('Something went wrong. Please try again.')
     },
- 
+    onSuccess: ({sentToEmail}) => {
+      toast.success('Verification email sent to ' + sentToEmail)
+      router.push('/verify-email?to='+sentToEmail)
+    },
   })
 
   const onSubmit = ({ email, password }: credentialValidationType) => {
