@@ -1,3 +1,4 @@
+import ProductReel from '@/components/ProductReel'
 import MaxWidthWrapper from '@/components/maxWidthWrapper'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { ArrowDownToLine, CheckCircle, Leaf } from 'lucide-react'
@@ -43,6 +44,7 @@ export default function Home() {
             <Button variant={'ghost'}>our Quality promise &rarr;</Button>
           </div>
         </div>
+        <ProductReel title='brand new' href='/products'/>
         {/* todoList of product */}
       </MaxWidthWrapper>
       <section className='border-t border-gray-200 bg-gray-50 '>
