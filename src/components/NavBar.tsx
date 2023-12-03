@@ -7,6 +7,7 @@ import { buttonVariants } from './ui/button'
 import Cart from './Cart'
 import { getServerSideUser } from '@/lib/payload-utils'
 import {cookies} from "next/headers"
+import UserAcountNav from './UserAcountNav'
 interface NavBarProps {}
 
 const NavBar =async ({}: NavBarProps) => {
@@ -41,7 +42,7 @@ const NavBar =async ({}: NavBarProps) => {
                     <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
                   )}
                   {user ? (
-                    <UserAcountNav/>
+                    <UserAcountNav user={user}/>
                   ) : (
                     <Link
                       className={buttonVariants({ variant: 'ghost' })}
