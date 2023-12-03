@@ -45,4 +45,24 @@ export const authRoute = router({
       if (!isVerfied) throw new TRPCError({ code: 'UNAUTHORIZED' })
       return { success: true }
     }),
+  signIn: publicProcedure
+    .input(z.object({ email: z.string(), password: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { password, email } = input
+      const payload = await getPayloadClient()
+      try {
+        await payload.login({
+          collection: 'users',
+          data: {
+            email,
+            password,
+          },
+
+          res: ctx.res,
+        })
+        return { success: true }
+      } catch (error) {
+        throw new TRPCError({ code: 'UNAUTHORIZED' })
+      }
+    }),
 })

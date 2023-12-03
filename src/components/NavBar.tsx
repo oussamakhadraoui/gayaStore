@@ -5,11 +5,13 @@ import { Icons } from './Icons'
 import NavItems from './NavItems'
 import { buttonVariants } from './ui/button'
 import Cart from './Cart'
-
+import { getServerSideUser } from '@/lib/payload-utils'
+import {cookies} from "next/headers"
 interface NavBarProps {}
 
-const NavBar = ({}: NavBarProps) => {
-  const user = null
+const NavBar =async ({}: NavBarProps) => {
+  const NextCookies = cookies()
+  const { user } = await getServerSideUser(NextCookies)
   return (
     <div className='bg-white sticky z-50 top-0 inset-x-0 h-16'>
       <header className='relative bg-white'>
@@ -39,7 +41,7 @@ const NavBar = ({}: NavBarProps) => {
                     <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
                   )}
                   {user ? (
-                    <p></p>
+                    <UserAcountNav/>
                   ) : (
                     <Link
                       className={buttonVariants({ variant: 'ghost' })}

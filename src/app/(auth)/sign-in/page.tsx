@@ -24,7 +24,13 @@ const Page = () => {
 
   const isSeller = searchParams.get('as') === 'seller'
   const origin = searchParams.get('origin')
-  const {
+  const continueAsSeller=()=>{
+    router.push('/sign-in?as=seller')
+  }
+  const continueAsBuyer=()=>{
+    router.replace('/sign-in',undefined)
+  }
+    const {
     register,
     handleSubmit,
     formState: { errors },
@@ -34,30 +40,29 @@ const Page = () => {
 
   const router = useRouter()
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
-    onError: (err) => {
-      if (err.data?.code === 'CONFLICT') {
-        toast.error('This email is already in use. Sign in instead?')
-
+  const { mutate:signIn, isLoading } = trpc.auth.signIn.useMutation({
+    onSuccess: () => {
+      toast.success('Signed in successfully')
+      router.refresh()
+      if (origin) {
+        router.push('/' + origin)
         return
       }
-
-      if (err instanceof ZodError) {
-        toast.error(err.issues[0].message)
-
+      if (isSeller) {
+        router.push('/sell')
         return
       }
-
-      toast.error('Something went wrong. Please try again.')
+      router.push('/')
     },
-    onSuccess: ({ sentToEmail }) => {
-      toast.success('Verification email sent to ' + sentToEmail)
-      router.push('/verify-email?to=' + sentToEmail)
-    },
+    onError:(err)=>{
+      if(err.data?.code==="UNAUTHORIZED"){
+        toast.error("invalid Password or Email")
+      }
+    }
   })
 
   const onSubmit = ({ email, password }: credentialValidationType) => {
-    mutate({ email, password })
+    signIn({ email, password })
   }
 
   return (
@@ -67,7 +72,7 @@ const Page = () => {
           <div className='flex flex-col items-center space-y-2 text-center'>
             <Icons.logo className='h-20 w-20' />
             <h1 className='text-2xl font-semibold tracking-tight'>
-              Sign in to your account
+              Sign in to your {isSeller ? 'account seller' : 'account'}
             </h1>
 
             <Link
@@ -134,6 +139,23 @@ const Page = () => {
                 </span>
               </div>
             </div>
+            {isSeller ? (
+              <Button
+                onClick={continueAsBuyer}
+                variant={'secondary'}
+                disabled={isLoading}
+              >
+                Continue as costumer
+              </Button>
+            ) : (
+              <Button
+                onClick={continueAsSeller}
+                variant={'secondary'}
+                disabled={isLoading}
+              >
+                Continue as seller
+              </Button>
+            )}
           </div>
         </div>
       </div>
