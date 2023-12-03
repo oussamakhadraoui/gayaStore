@@ -11,7 +11,7 @@ export const Products: CollectionConfig = {
     {
       name: 'user',
       type: 'relationship',
-      relationTo: 'Users',
+      relationTo: 'users',
       required: true,
       hasMany: false,
       admin: {
@@ -49,10 +49,10 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'product_files',
-      label: 'product_file(s)',
+      label: 'Product file(s)',
       type: 'relationship',
-      relationTo: 'product_files',
       required: true,
+      relationTo: 'product_files',
       hasMany: false,
     },
     {

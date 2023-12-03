@@ -6,12 +6,15 @@ import path from 'path'
 import { Users } from './collections/User'
 import dotenv from 'dotenv'
 import { Products } from './collections/Product/Product'
+import { Media } from './collections/Media'
+import { ProductFiles } from './collections/ProductFile'
+import { Orders } from './collections/Orders'
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 })
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000/',
-  collections: [Users,Products],
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
+  collections: [Users, Products, Media, ProductFiles, Orders],
   routes: {
     admin: '/sell',
   },
