@@ -1,4 +1,6 @@
+"use client"
 import { trpc } from '@/app/_trpc/client'
+import { TQueryValidator } from '@/lib/Validation/QueryValidator'
 import Link from 'next/link'
 import React from 'react'
 
@@ -6,11 +8,15 @@ interface ProductReelProps {
   title:string
   subtitle?:string
   href?:string
+  query:TQueryValidator
 }
-
+const FALLBACK = 4
 const ProductReel = (props: ProductReelProps) => {
- const { title, subtitle ,href} = props
- const {}= trpc.
+ const { title, subtitle ,href,query} = props
+ const {data}= trpc.getInfiniteProducts.useInfiniteQuery({limit:query.limit??FALLBACK,query},{
+  getNextPageParam: (lastPage) => lastPage.nextPage,
+ })
+ console.log(data)
   return (
     <section className='py-12'>
       <div className='md:flex md:items-center md:justify-between mb-4'>

@@ -44,7 +44,11 @@ export default function Home() {
             <Button variant={'ghost'}>our Quality promise &rarr;</Button>
           </div>
         </div>
-        <ProductReel title='brand new' href='/products'/>
+        <ProductReel
+          query={{ sort: 'desc', limit: 4 }}
+          title='brand new'
+          href='/products'
+        />
         {/* todoList of product */}
       </MaxWidthWrapper>
       <section className='border-t border-gray-200 bg-gray-50 '>
@@ -74,6 +78,5 @@ export default function Home() {
         </MaxWidthWrapper>
       </section>
     </>
-
   )
 }
