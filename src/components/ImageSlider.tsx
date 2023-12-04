@@ -1,21 +1,19 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { Button } from './ui/button'
-import { Swiper, SwiperSlide } from 'Swiper/react'
+'use client'
+
 import Image from 'next/image'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Pagination } from 'swiper/modules'
 import type SwiperType from 'swiper'
+import { useEffect, useState } from 'react'
+import { Pagination } from 'swiper/modules'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 interface ImageSliderProps {
   urls: string[]
 }
 
-const activeStyles =
-  'active:scale-[0.97] grid opacity-100 hover:scale-105 absolute top-1/2 -translate-y-1/2 aspect-square h-8 w-8 z-50 place-items-center rounded-full border-2 bg-white border-zinc-300'
-const inactiveStyles = 'hidden text-gray-400'
 const ImageSlider = ({ urls }: ImageSliderProps) => {
   const [swiper, setSwiper] = useState<null | SwiperType>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -34,9 +32,14 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
       })
     })
   }, [swiper, urls])
+
+  const activeStyles =
+    'active:scale-[0.97] grid opacity-100 hover:scale-105 absolute top-1/2 -translate-y-1/2 aspect-square h-8 w-8 z-50 place-items-center rounded-full border-2 bg-white border-zinc-300'
+  const inactiveStyles = 'hidden text-gray-400'
+
   return (
     <div className='group relative bg-zinc-100 aspect-square overflow-hidden rounded-xl'>
-      <div className='absolute z-10 inset-0 opacity-0 group-hover:opacity-100'>
+      <div className='absolute z-10 inset-0 opacity-0 group-hover:opacity-100 transition'>
         <button
           onClick={(e) => {
             e.preventDefault()
@@ -66,6 +69,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
           <ChevronLeft className='h-4 w-4 text-zinc-700' />{' '}
         </button>
       </div>
+
       <Swiper
         pagination={{
           renderBullet: (_, className) => {
