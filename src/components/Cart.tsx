@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -23,7 +23,11 @@ interface CartProps {}
 const Cart = ({}: CartProps) => {
   const {items}= useCart()
   const itemsCount = items.length
+const [isMounted,setIsMounted]=useState<boolean>(false)
 
+useEffect(()=>{
+setIsMounted(true)
+},[])
   const totalCart = items.reduce((acc, item) => {
     return acc + item.product.price
   }, 0)
@@ -36,7 +40,7 @@ const Cart = ({}: CartProps) => {
           aria-hidden='true'
         />
         <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-          {itemsCount}
+          {isMounted ?itemsCount:0}
         </span>
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-6'>
