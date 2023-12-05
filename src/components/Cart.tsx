@@ -14,11 +14,19 @@ import { formatPrice } from '@/lib/utils'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 import Image from 'next/image'
+import { useCart } from '@/hook/useCart'
+import CartItem from './CartItem'
+import { ScrollArea } from './ui/scroll-area'
 
 interface CartProps {}
 
 const Cart = ({}: CartProps) => {
-  const itemsCount = 0
+  const {items}= useCart()
+  const itemsCount = items.length
+
+  const totalCart = items.reduce((acc, item) => {
+    return acc + item.product.price
+  }, 0)
   const fee = 1
   return (
     <Sheet>
@@ -28,16 +36,22 @@ const Cart = ({}: CartProps) => {
           aria-hidden='true'
         />
         <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-          0
+          {itemsCount}
         </span>
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-6'>
         <SheetHeader className='space-y-2.5 pr-6'>
-          <SheetTitle>crt(0)</SheetTitle>
+          <SheetTitle>crt({itemsCount})</SheetTitle>
         </SheetHeader>
         {itemsCount > 0 ? (
           <>
-            <div className='flex w-full flex-col pr-6'>cart Items</div>
+            <div className='flex w-full flex-col pr-6'>
+              <ScrollArea>
+                {items.map(({ product }) => (
+                  <CartItem key={product.id} product={product} />
+                ))}
+              </ScrollArea>
+            </div>
             <div className='space-y-4 pr-6'>
               <Separator />
               <div className='space-y-1.5 text-sm'>
@@ -50,8 +64,8 @@ const Cart = ({}: CartProps) => {
                   <span>{formatPrice(fee)}</span>
                 </div>
                 <div className='flex '>
-                  <span className='flex-1'>Total</span>
-                  <span>{formatPrice(fee)}</span>
+                  <span className='flex-1'>total</span>
+                  <span>{formatPrice(totalCart + fee)}</span>
                 </div>
               </div>
               <SheetFooter>
@@ -80,7 +94,7 @@ const Cart = ({}: CartProps) => {
                 className={buttonVariants({
                   variant: 'ghost',
                   className: 'text-sm text-muted-foreground',
-                  size:'sm',
+                  size: 'sm',
                 })}
                 href={'/product'}
               >
