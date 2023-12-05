@@ -27,7 +27,7 @@ const BREADCRUMB = [
     href: '/products',
   },
 ]
-const page = async ({ params: { productId } }: pageProps) => {
+const Page = async ({ params: { productId } }: pageProps) => {
   const payload = await getPayloadClient()
   const { docs: products } = await payload.find({
     collection: 'products',
@@ -37,7 +37,7 @@ const page = async ({ params: { productId } }: pageProps) => {
         equals: productId,
       },
       approvedForSale: {
-        equals: 'approved',
+        equals: 'pending',
       },
     },
   })
@@ -45,10 +45,12 @@ const page = async ({ params: { productId } }: pageProps) => {
   if (!product) {
     return notFound()
   }
-   const validUrls = product.images
-     .map(({ image }) => (typeof image === 'string' ? image : image.url))
-     .filter(Boolean) as string[]
-  const label = PRODUCT_GAT.find((value)=>value.value===product.category)?.label
+  const validUrls = product.images
+    .map(({ image }) => (typeof image === 'string' ? image : image.url))
+    .filter(Boolean) as string[]
+  const label = PRODUCT_GAT.find(
+    (value) => value.value === product.category
+  )?.label
   return (
     <MaxWidthWrapper className='bg-white'>
       <div className='bg-white'>
@@ -115,7 +117,7 @@ const page = async ({ params: { productId } }: pageProps) => {
             </div>
           </div>
 
-          {/* add to cart part */}
+    
           <div className='mt-10 lg:col-start-1 lg:row-span-2 lg:max-w-lg lg:self-start'>
             <div>
               <div className='mt-10'>
@@ -147,4 +149,4 @@ const page = async ({ params: { productId } }: pageProps) => {
   )
 }
 
-export default page
+export default Page

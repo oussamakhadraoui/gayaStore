@@ -47,7 +47,7 @@ export default function Home() {
         <ProductReel
           query={{ sort: 'desc', limit: 4 }}
           title='brand new'
-          href='/products'
+          href='/product'
         />
         {/* todoList of product */}
       </MaxWidthWrapper>

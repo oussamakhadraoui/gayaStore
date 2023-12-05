@@ -45,7 +45,7 @@ setIsMounted(true)
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-6'>
         <SheetHeader className='space-y-2.5 pr-6'>
-          <SheetTitle>crt({itemsCount})</SheetTitle>
+          <SheetTitle>cart({itemsCount})</SheetTitle>
         </SheetHeader>
         {itemsCount > 0 ? (
           <>
