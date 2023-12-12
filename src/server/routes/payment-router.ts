@@ -33,7 +33,7 @@ export const paymentRouter = router({
 
         },
       })
-      try {
+
        const line_items:Stripe.Checkout.SessionCreateParams.LineItem[]=[]
        filterProducts.forEach((product)=>{
         line_items.push({
@@ -49,25 +49,25 @@ export const paymentRouter = router({
           enabled:false
          }
        })
+        try {
+          const stripeSession = await stripe.checkout.sessions.create({
+            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
+            payment_method_types: ['card', 'paypal'],
+            mode: 'payment',
+            metadata: {
+              userId: user.id,
+              orderId: order.id,
+            },
+            line_items,
+          })
 
-       const stripeSession = await stripe.checkout.sessions.create({
-         success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
-         cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-         payment_method_types:["card","paypal"],
-         line_items ,
-         mode:"payment",
-         metadata: {
-          userId:user.id,
-          orderId: order.id
-         }
-         
-       })
-       return {url:stripeSession.url}
-      } catch (error) {
-       console.log(error)
-       return{
-        url:null
-       }
-      }
+          return { url: stripeSession.url }
+        } catch (error) {
+          console.log(error)
+          return {
+            url: null,
+          }
+        }
     }),
 })
