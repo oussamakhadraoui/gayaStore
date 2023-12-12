@@ -21,12 +21,12 @@ const Page = ({}: pageProps) => {
 
   const router = useRouter()
 
-  // const { mutate: createCheckoutSession, isLoading } =
-  //   trpc.payment.createSession.useMutation({
-  //     onSuccess: ({ url }) => {
-  //       if (url) router.push(url)
-  //     },
-  //   })
+  const { mutate: createCheckoutSession, isLoading } =
+    trpc.payment.createSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) router.push(url)
+      },
+    })
 
   const productIds = items.map(({ product }) => product.id)
 
@@ -200,7 +200,7 @@ const Page = ({}: pageProps) => {
             </div>
 
             <div className='mt-6'>
-              {/* <Button
+              <Button
                 disabled={items.length === 0 || isLoading}
                 onClick={() => createCheckoutSession({ productIds })}
                 className='w-full'
@@ -210,7 +210,7 @@ const Page = ({}: pageProps) => {
                   <Loader2 className='w-4 h-4 animate-spin mr-1.5' />
                 ) : null}
                 Checkout
-              </Button> */}
+              </Button>
             </div>
           </section>
         </div>
