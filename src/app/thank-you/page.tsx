@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import React from 'react'
 import { cookies } from 'next/headers'
+import PaymentStatus from '@/components/PaymentsStatus'
 interface pageProps {
   searchParams:{
    [key: string]: string | string[] | undefined
@@ -159,11 +160,11 @@ const page = async ({ searchParams }: pageProps) => {
                 </div>
               </div>
 
-              {/* <PaymentStatus
+              <PaymentStatus
                 isPaid={order._isPaid}
                 orderEmail={(order.user as User).email}
                 orderId={order.id}
-              /> */}
+              />
 
               <div className='mt-16 border-t border-gray-200 py-6 text-right'>
                 <Link
