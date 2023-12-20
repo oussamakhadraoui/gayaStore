@@ -69,6 +69,8 @@ var trpcExpress = __importStar(require("@trpc/server/adapters/express"));
 var index_1 = require("./server/index");
 var body_parser_1 = __importDefault(require("body-parser"));
 var webHookk_1 = require("./components/webHookk");
+var build_1 = __importDefault(require("next/dist/build"));
+var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
 var PORT = Number(process.env.PORT) || 3000;
 var createContext = function (_a) {
@@ -106,6 +108,24 @@ var Start = function () { return __awaiter(void 0, void 0, void 0, function () {
                     router: index_1.appRouter,
                     createContext: createContext,
                 }));
+                if (process.env.NEXT_BUILD) {
+                    app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    payload.logger.info('Next.js is building for production');
+                                    // @ts-expect-error
+                                    return [4 /*yield*/, (0, build_1.default)(path_1.default.join(__dirname, '../'))];
+                                case 1:
+                                    // @ts-expect-error
+                                    _a.sent();
+                                    process.exit();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                    return [2 /*return*/];
+                }
                 app.use(function (req, res) { return (0, next_utils_1.nextHandler)(req, res); }); ///the next server
                 next_utils_1.nextAPP.prepare().then(function () {
                     payload.logger.info('NEXT.JS started');
