@@ -1,7 +1,7 @@
-import { getPayloadClient } from '@/lib/getPayloadClient'
-import { stripe } from '@/lib/stripe'
-import { Product } from '@/payload-types'
-import { webhookRequest } from '@/server'
+import { getPayloadClient } from '../lib/getPayloadClient'
+import { stripe } from '../lib/stripe'
+import { Product } from '../payload-types'
+import { webhookRequest } from '../server'
 import express from 'express'
 import Stripe from 'stripe'
 import {Resend}from "resend"
