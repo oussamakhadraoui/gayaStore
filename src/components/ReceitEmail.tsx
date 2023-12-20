@@ -16,22 +16,25 @@ import {
   render,
 } from '@react-email/components'
 
-
 import { format } from 'date-fns'
 import { formatPrice } from '@/lib/utils'
 interface ReceiptEmailProps {
-  email:string
-  date:Date
-  orderId:string
-  products:Product[]
+  email: string
+  date: Date
+  orderId: string
+  products: Product[]
 }
 
 const ReceiptEmail = ({
- email,date,orderId,products
+  email,
+  date,
+  orderId,
+  products,
 }: ReceiptEmailProps) => {
- const total= products.reduce((acc,curr)=>{
-  return acc+=curr.price
- },0)+1
+  const total =
+    products.reduce((acc, curr) => {
+      return (acc += curr.price)
+    }, 0) + 1
   return (
     <Html>
       <Head />
@@ -166,7 +169,9 @@ const ReceiptEmail = ({
   )
 }
 
-export default ReceiptEmail
+export const ReceiptEmailHtml = (props: ReceiptEmailProps) => {
+  return render(<ReceiptEmail {...props} />, { pretty: true })
+}
 const main = {
   fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif',
   backgroundColor: '#ffffff',

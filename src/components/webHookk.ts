@@ -5,6 +5,7 @@ import { webhookRequest } from '@/server'
 import express from 'express'
 import Stripe from 'stripe'
 import {Resend}from "resend"
+import { ReceiptEmailHtml } from './ReceitEmail'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 export const stripewebhookHandler = async (
